@@ -100,8 +100,8 @@ export default function TransactionsPage() {
       <div className="space-y-6">
         {/* Filters */}
         <Card>
-          <div className="flex flex-wrap gap-4 items-end">
-            <div className="w-48">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 sm:items-end">
+            <div className="w-full sm:w-48">
               <Select
                 label="Warehouse"
                 value={filters.warehouse}
@@ -110,7 +110,7 @@ export default function TransactionsPage() {
                 placeholder="All Warehouses"
               />
             </div>
-            <div className="w-40">
+            <div className="w-full sm:w-40">
               <Select
                 label="Type"
                 value={filters.type}
@@ -119,7 +119,7 @@ export default function TransactionsPage() {
                 placeholder="All Types"
               />
             </div>
-            <div className="w-44">
+            <div className="w-full sm:w-44">
               <Input
                 label="Start Date"
                 type="date"
@@ -127,7 +127,7 @@ export default function TransactionsPage() {
                 onChange={(e) => handleFilterChange('startDate', e.target.value)}
               />
             </div>
-            <div className="w-44">
+            <div className="w-full sm:w-44">
               <Input
                 label="End Date"
                 type="date"
@@ -135,18 +135,19 @@ export default function TransactionsPage() {
                 onChange={(e) => handleFilterChange('endDate', e.target.value)}
               />
             </div>
-            <Button variant="outline" onClick={clearFilters}>
-              Clear
-            </Button>
-            <div className="flex-1" />
-            <Button variant="secondary" onClick={exportToCSV} disabled={transactions.length === 0}>
-              Export CSV
-            </Button>
+            <div className="flex flex-wrap gap-2 sm:gap-4 w-full sm:w-auto sm:flex-1 sm:justify-end">
+              <Button variant="outline" onClick={clearFilters} className="flex-1 sm:flex-none">
+                Clear
+              </Button>
+              <Button variant="secondary" onClick={exportToCSV} disabled={transactions.length === 0} className="flex-1 sm:flex-none">
+                Export CSV
+              </Button>
+            </div>
           </div>
         </Card>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
           <Card>
             <div className="text-center">
               <p className="text-sm text-gray-500">Total Transactions</p>

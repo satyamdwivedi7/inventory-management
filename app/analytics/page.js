@@ -78,8 +78,8 @@ export default function AnalyticsPage() {
       <div className="space-y-6">
         {/* Filters */}
         <Card>
-          <div className="flex flex-wrap gap-4 items-end">
-            <div className="w-40">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 sm:items-end">
+            <div className="w-full sm:w-40">
               <Select
                 label="Period"
                 value={filters.days.toString()}
@@ -93,7 +93,7 @@ export default function AnalyticsPage() {
                 ]}
               />
             </div>
-            <div className="w-48">
+            <div className="w-full sm:w-48">
               <Select
                 label="Category"
                 value={filters.category}
@@ -102,7 +102,7 @@ export default function AnalyticsPage() {
                 placeholder="All Categories"
               />
             </div>
-            <div className="w-48">
+            <div className="w-full sm:w-48">
               <Select
                 label="Warehouse"
                 value={filters.warehouse}
@@ -111,16 +111,16 @@ export default function AnalyticsPage() {
                 placeholder="All Warehouses"
               />
             </div>
-            <Button variant="outline" onClick={() => setFilters({ days: 30, category: '', warehouse: '' })}>
+            <Button variant="outline" onClick={() => setFilters({ days: 30, category: '', warehouse: '' })} className="w-full sm:w-auto">
               Clear
             </Button>
           </div>
         </Card>
 
         {/* Tabs */}
-        <div className="flex gap-2 border-b border-gray-200">
+        <div className="flex gap-1 sm:gap-2 border-b border-gray-200 overflow-x-auto">
           <button
-            className={`px-4 py-2 font-medium text-sm border-b-2 transition-colors ${
+            className={`px-3 sm:px-4 py-2 font-medium text-xs sm:text-sm border-b-2 transition-colors whitespace-nowrap ${
               activeTab === 'performance'
                 ? 'border-blue-600 text-blue-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700'

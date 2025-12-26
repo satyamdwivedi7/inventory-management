@@ -95,39 +95,39 @@ export default function UsersPage() {
     <DashboardLayout title="User Management">
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <p className="text-gray-600">Manage user accounts and permissions</p>
           <Badge variant="primary">{users.length} Total Users</Badge>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           <Card>
             <div className="text-center">
-              <p className="text-sm text-gray-500">Total Users</p>
-              <p className="text-2xl font-bold">{users.length}</p>
+              <p className="text-xs sm:text-sm text-gray-500">Total Users</p>
+              <p className="text-xl sm:text-2xl font-bold">{users.length}</p>
             </div>
           </Card>
           <Card>
             <div className="text-center">
-              <p className="text-sm text-gray-500">Owners</p>
-              <p className="text-2xl font-bold text-red-600">
+              <p className="text-xs sm:text-sm text-gray-500">Owners</p>
+              <p className="text-xl sm:text-2xl font-bold text-red-600">
                 {users.filter(u => u.role === 'owner').length}
               </p>
             </div>
           </Card>
           <Card>
             <div className="text-center">
-              <p className="text-sm text-gray-500">Managers</p>
-              <p className="text-2xl font-bold text-yellow-600">
+              <p className="text-xs sm:text-sm text-gray-500">Managers</p>
+              <p className="text-xl sm:text-2xl font-bold text-yellow-600">
                 {users.filter(u => u.role === 'manager').length}
               </p>
             </div>
           </Card>
           <Card>
             <div className="text-center">
-              <p className="text-sm text-gray-500">Staff</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-xs sm:text-sm text-gray-500">Staff</p>
+              <p className="text-xl sm:text-2xl font-bold text-blue-600">
                 {users.filter(u => u.role === 'staff').length}
               </p>
             </div>

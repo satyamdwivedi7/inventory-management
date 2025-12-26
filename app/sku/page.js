@@ -136,8 +136,8 @@ export default function SKUPage() {
       <div className="space-y-6">
         {/* Filters */}
         <Card>
-          <div className="flex flex-wrap gap-4 items-end">
-            <div className="flex-1 min-w-[200px]">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 sm:items-end">
+            <div className="w-full sm:flex-1 sm:min-w-[200px]">
               <Input
                 label="Search"
                 placeholder="Search by name or code..."
@@ -145,7 +145,7 @@ export default function SKUPage() {
                 onChange={(e) => handleFilterChange('search', e.target.value)}
               />
             </div>
-            <div className="w-48">
+            <div className="w-full sm:w-48">
               <Select
                 label="Category"
                 value={filters.category}
@@ -154,18 +154,20 @@ export default function SKUPage() {
                 placeholder="All Categories"
               />
             </div>
-            <Button
-              variant="outline"
-              onClick={() => setFilters({ search: '', category: '', page: 1 })}
-            >
-              Clear
-            </Button>
-            <div className="flex-1" />
-            {hasPermission('canManageSKUs') && (
-              <Button onClick={openCreateModal}>
-                Create SKU
+            <div className="flex flex-wrap gap-2 sm:gap-4 w-full sm:w-auto sm:flex-1 sm:justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setFilters({ search: '', category: '', page: 1 })}
+                className="flex-1 sm:flex-none"
+              >
+                Clear
               </Button>
-            )}
+              {hasPermission('canManageSKUs') && (
+                <Button onClick={openCreateModal} className="flex-1 sm:flex-none">
+                  Create SKU
+                </Button>
+              )}
+            </div>
           </div>
         </Card>
 

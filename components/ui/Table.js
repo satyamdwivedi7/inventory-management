@@ -16,36 +16,38 @@ export default function Table({ columns, data, loading, emptyMessage = 'No data 
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            {columns.map((column) => (
-              <th
-                key={column.key}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                style={{ width: column.width }}
-              >
-                {column.header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {data.map((row, rowIndex) => (
-            <tr key={row._id || row.id || rowIndex} className="hover:bg-gray-50">
+    <div className="overflow-x-auto -mx-4 sm:-mx-6">
+      <div className="inline-block min-w-full align-middle px-4 sm:px-6">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
               {columns.map((column) => (
-                <td
+                <th
                   key={column.key}
-                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                  className="px-3 sm:px-6 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                  style={{ width: column.width }}
                 >
-                  {column.render ? column.render(row[column.key], row) : row[column.key]}
-                </td>
+                  {column.header}
+                </th>
               ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {data.map((row, rowIndex) => (
+              <tr key={row._id || row.id || rowIndex} className="hover:bg-gray-50">
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    className="px-3 sm:px-6 py-3 sm:py-4 text-sm text-gray-900"
+                  >
+                    {column.render ? column.render(row[column.key], row) : row[column.key]}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

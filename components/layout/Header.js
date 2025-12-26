@@ -1,21 +1,43 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
+import { useSidebar } from './Sidebar';
 import Button from '@/components/ui/Button';
 
 export default function Header({ title }) {
   const { user, logout } = useAuth();
+  const { toggle } = useSidebar();
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">
+    <header className="bg-white border-b border-gray-200 px-3 sm:px-4 md:px-6 py-3 md:py-4 sticky top-0 z-30">
+      <div className="flex items-center justify-between gap-2 sm:gap-4">
+        {/* Mobile menu button */}
+        <button
+          onClick={toggle}
+          className="lg:hidden p-2 -ml-2 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+          aria-label="Toggle menu"
+        >
+          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Title */}
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 truncate flex-1 lg:flex-none">
+          {title}
+        </h1>
+
+        {/* Right side actions */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          {/* User info - hidden on small mobile */}
+          <span className="hidden sm:inline text-sm text-gray-600">
             Welcome, <span className="font-medium">{user?.name}</span>
           </span>
           <Button variant="outline" size="sm" onClick={logout}>
-            Logout
+            <span className="hidden sm:inline">Logout</span>
+            <svg className="w-4 h-4 sm:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
           </Button>
         </div>
       </div>

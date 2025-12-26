@@ -1,9 +1,61 @@
 'use client';
 
+import { createContext, useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { NAV_ITEMS } from '@/lib/constants';
+
+// Sidebar context for sharing state between Sidebar and other components
+const SidebarContext = createContext();
+
+export function useSidebar() {
+  const context = useContext(SidebarContext);
+  if (!context) {
+    return { isOpen: false, toggle: () => {}, close: () => {} };
+  }
+  return context;
+}
+
+export function SidebarProvider({ children }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close sidebar on route change (mobile)
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  // Close sidebar on escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  // Prevent body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  const toggle = () => setIsOpen(!isOpen);
+  const close = () => setIsOpen(false);
+
+  return (
+    <SidebarContext.Provider value={{ isOpen, toggle, close }}>
+      {children}
+    </SidebarContext.Provider>
+  );
+}
 
 const Icons = {
   LayoutDashboard: () => (
@@ -51,59 +103,89 @@ const Icons = {
 export default function Sidebar() {
   const pathname = usePathname();
   const { user, hasRole } = useAuth();
+  const { isOpen, close } = useSidebar();
 
   const filteredNavItems = NAV_ITEMS.filter((item) => hasRole(item.roles));
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-gray-900 text-white flex flex-col">
-      <div className="p-6 border-b border-gray-800">
-        <h1 className="text-xl font-bold">Inventory System</h1>
-        <p className="text-sm text-gray-400 mt-1">Management Portal</p>
-      </div>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
+          onClick={close}
+        />
+      )}
 
-      <nav className="flex-1 p-4 overflow-y-auto">
-        <ul className="space-y-1">
-          {filteredNavItems.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-            const Icon = Icons[item.icon];
-
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                  }`}
-                >
-                  {Icon && <Icon />}
-                  <span>{item.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-
-      <div className="p-4 border-t border-gray-800">
-        <Link
-          href="/profile"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-            pathname === '/profile'
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-          }`}
-        >
-          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-sm font-medium">
-            {user?.name?.charAt(0).toUpperCase() || 'U'}
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed left-0 top-0 h-full w-64 bg-gray-900 text-white flex flex-col z-50
+          transform transition-transform duration-300 ease-in-out
+          lg:translate-x-0
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}
+      >
+        <div className="p-4 sm:p-6 border-b border-gray-800 flex items-center justify-between">
+          <div>
+            <h1 className="text-lg sm:text-xl font-bold">Inventory System</h1>
+            <p className="text-xs sm:text-sm text-gray-400 mt-1">Management Portal</p>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{user?.name || 'User'}</p>
-            <p className="text-xs text-gray-400 capitalize">{user?.role || 'Guest'}</p>
-          </div>
-        </Link>
-      </div>
-    </aside>
+          {/* Close button for mobile */}
+          <button
+            onClick={close}
+            className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <nav className="flex-1 p-3 sm:p-4 overflow-y-auto">
+          <ul className="space-y-1">
+            {filteredNavItems.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+              const Icon = Icons[item.icon];
+
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-colors ${
+                      isActive
+                        ? 'bg-blue-600 text-white'
+                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                    }`}
+                  >
+                    {Icon && <Icon />}
+                    <span className="text-sm sm:text-base">{item.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="p-3 sm:p-4 border-t border-gray-800">
+          <Link
+            href="/profile"
+            className={`flex items-center gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg transition-colors ${
+              pathname === '/profile'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+            }`}
+          >
+            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-sm font-medium flex-shrink-0">
+              {user?.name?.charAt(0).toUpperCase() || 'U'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">{user?.name || 'User'}</p>
+              <p className="text-xs text-gray-400 capitalize">{user?.role || 'Guest'}</p>
+            </div>
+          </Link>
+        </div>
+      </aside>
+    </>
   );
 }

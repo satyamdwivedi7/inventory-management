@@ -10,16 +10,16 @@ function StatCard({ title, value, subtitle, icon, trend }) {
   return (
     <Card>
       <div className="flex items-start justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
-          {subtitle && <p className="text-sm text-gray-500 mt-1">{subtitle}</p>}
+        <div className="min-w-0 flex-1">
+          <p className="text-xs sm:text-sm font-medium text-gray-500">{title}</p>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1 truncate">{value}</p>
+          {subtitle && <p className="text-xs sm:text-sm text-gray-500 mt-1">{subtitle}</p>}
         </div>
-        <div className="p-3 bg-blue-100 rounded-lg text-blue-600">{icon}</div>
+        <div className="p-2 sm:p-3 bg-blue-100 rounded-lg text-blue-600 flex-shrink-0 ml-2">{icon}</div>
       </div>
       {trend && (
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <span className={`text-sm ${trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+        <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-100">
+          <span className={`text-xs sm:text-sm ${trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
             {trend >= 0 ? '↑' : '↓'} {Math.abs(trend)}% from last month
           </span>
         </div>
@@ -90,7 +90,7 @@ export default function DashboardPage() {
     <DashboardLayout title="Dashboard">
       <div className="space-y-6">
         {/* Overview Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           <StatCard
             title="Total SKUs"
             value={data?.overview?.totalSKUs || 0}
@@ -131,7 +131,7 @@ export default function DashboardPage() {
 
         {/* Alerts Section */}
         <Card title="Alerts Overview">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <AlertCard
               type="Low Stock Items"
               count={data?.alerts?.lowStock || 0}
@@ -152,7 +152,7 @@ export default function DashboardPage() {
 
         {/* Warehouse Summary */}
         <Card title="Warehouse Summary">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {data?.warehouses?.map((warehouse) => (
               <div
                 key={warehouse._id}

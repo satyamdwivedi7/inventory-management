@@ -19,18 +19,19 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
   }
 
   return (
-    <div className="flex items-center justify-between mt-4">
-      <p className="text-sm text-gray-600">
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+      <p className="text-sm text-gray-600 order-2 sm:order-1">
         Page {currentPage} of {totalPages}
       </p>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2 order-1 sm:order-2 flex-wrap justify-center">
         <Button
           variant="outline"
           size="sm"
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
         >
-          Previous
+          <span className="hidden sm:inline">Previous</span>
+          <span className="sm:hidden">‹</span>
         </Button>
         {startPage > 1 && (
           <>
@@ -41,7 +42,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
             >
               1
             </Button>
-            {startPage > 2 && <span className="px-2 text-gray-400">...</span>}
+            {startPage > 2 && <span className="px-1 sm:px-2 text-gray-400">...</span>}
           </>
         )}
         {pages.map((page) => (
@@ -56,7 +57,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         ))}
         {endPage < totalPages && (
           <>
-            {endPage < totalPages - 1 && <span className="px-2 text-gray-400">...</span>}
+            {endPage < totalPages - 1 && <span className="px-1 sm:px-2 text-gray-400">...</span>}
             <Button
               variant={totalPages === currentPage ? 'primary' : 'outline'}
               size="sm"
@@ -72,7 +73,8 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
         >
-          Next
+          <span className="hidden sm:inline">Next</span>
+          <span className="sm:hidden">›</span>
         </Button>
       </div>
     </div>

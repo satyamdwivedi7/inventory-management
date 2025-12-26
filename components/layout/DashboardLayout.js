@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
-import Sidebar from './Sidebar';
+import Sidebar, { SidebarProvider } from './Sidebar';
 import Header from './Header';
 import Spinner from '@/components/ui/Spinner';
 
@@ -21,12 +21,15 @@ export default function DashboardLayout({ children, title }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Sidebar />
-      <div className="ml-64">
-        <Header title={title} />
-        <main className="p-6">{children}</main>
+    <SidebarProvider>
+      <div className="min-h-screen bg-gray-50">
+        <Sidebar />
+        {/* Main content area - full width on mobile, offset on desktop */}
+        <div className="lg:ml-64 min-h-screen flex flex-col">
+          <Header title={title} />
+          <main className="flex-1 p-3 sm:p-4 md:p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

@@ -132,9 +132,9 @@ export default function WarehousesPage() {
     <DashboardLayout title="Warehouse Management">
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <p className="text-gray-600">Manage your warehouse locations</p>
-          <Button onClick={openCreateModal}>
+          <Button onClick={openCreateModal} className="w-full sm:w-auto">
             Add Warehouse
           </Button>
         </div>
@@ -149,14 +149,14 @@ export default function WarehousesPage() {
             <div className="text-center py-12 text-red-600">{error}</div>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {warehouses.map((warehouse) => (
               <Card key={warehouse._id}>
                 <div className="space-y-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{warehouse.name}</h3>
-                      <p className="text-sm text-gray-500">{warehouse.location}</p>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate">{warehouse.name}</h3>
+                      <p className="text-sm text-gray-500 truncate">{warehouse.location}</p>
                     </div>
                     <Badge variant={warehouse.isActive ? 'success' : 'danger'}>
                       {warehouse.isActive ? 'Active' : 'Inactive'}

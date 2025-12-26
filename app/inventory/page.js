@@ -141,8 +141,8 @@ export default function InventoryPage() {
       <div className="space-y-6">
         {/* Filters */}
         <Card>
-          <div className="flex flex-wrap gap-4 items-end">
-            <div className="w-48">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 sm:items-end">
+            <div className="w-full sm:w-48">
               <Select
                 label="Warehouse"
                 value={filters.warehouse}
@@ -151,7 +151,7 @@ export default function InventoryPage() {
                 placeholder="All Warehouses"
               />
             </div>
-            <div className="w-48">
+            <div className="w-full sm:w-48">
               <Select
                 label="Stock Status"
                 value={filters.lowStock}
@@ -163,16 +163,18 @@ export default function InventoryPage() {
                 placeholder="All Status"
               />
             </div>
-            <Button
-              variant="outline"
-              onClick={() => setFilters({ warehouse: '', lowStock: '', page: 1 })}
-            >
-              Clear Filters
-            </Button>
-            <div className="flex-1" />
-            <Button onClick={() => setAddModal(true)}>
-              Add Stock Entry
-            </Button>
+            <div className="flex flex-wrap gap-2 sm:gap-4 sm:flex-1 sm:justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setFilters({ warehouse: '', lowStock: '', page: 1 })}
+                className="flex-1 sm:flex-none"
+              >
+                Clear Filters
+              </Button>
+              <Button onClick={() => setAddModal(true)} className="flex-1 sm:flex-none">
+                Add Stock Entry
+              </Button>
+            </div>
           </div>
         </Card>
 
@@ -228,7 +230,7 @@ export default function InventoryPage() {
                             <Badge variant={status.variant}>{status.text}</Badge>
                           </td>
                           <td className="px-4 py-3">
-                            <div className="flex gap-2">
+                            <div className="flex flex-col sm:flex-row gap-1 sm:gap-2">
                               <Button
                                 size="sm"
                                 variant="success"

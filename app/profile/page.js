@@ -112,17 +112,17 @@ export default function ProfilePage() {
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Profile Header */}
         <Card>
-          <div className="flex items-center gap-6">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-white text-2xl sm:text-3xl font-bold shadow-lg flex-shrink-0">
               {profileData?.name?.charAt(0).toUpperCase() || 'U'}
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900">{profileData?.name}</h2>
-              <p className="text-gray-500">{profileData?.email}</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{profileData?.name}</h2>
+              <p className="text-gray-500 text-sm sm:text-base">{profileData?.email}</p>
               <div className="mt-2">{getRoleBadge(profileData?.role)}</div>
             </div>
             {!isEditing && (
-              <Button onClick={() => setIsEditing(true)}>
+              <Button onClick={() => setIsEditing(true)} className="w-full sm:w-auto">
                 Edit Profile
               </Button>
             )}
@@ -162,18 +162,18 @@ export default function ProfilePage() {
                 placeholder="Select a warehouse"
               />
 
-              <div className="flex gap-3 pt-4">
-                <Button onClick={handleSave} loading={saveLoading}>
+              <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
+                <Button onClick={handleSave} loading={saveLoading} className="w-full sm:w-auto">
                   Save Changes
                 </Button>
-                <Button variant="outline" onClick={handleCancel}>
+                <Button variant="outline" onClick={handleCancel} className="w-full sm:w-auto">
                   Cancel
                 </Button>
               </div>
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <p className="text-sm text-gray-500">Full Name</p>
                   <p className="font-medium">{profileData?.name || '-'}</p>
